@@ -42,6 +42,7 @@ class TestPyVersions(unittest.TestCase):
             shell=True)
         return stdout.decode('ascii')
 
+
     def _get_pypy_version(self, py_interpreter):
         # --version prints to stderr, so we need to redirect it to stdout
         stdout = subprocess.check_output(
@@ -50,6 +51,9 @@ class TestPyVersions(unittest.TestCase):
             shell=True)
 
         return self._pypy_ver.search(stdout).group(1)
+
+    def test_py26(self):
+        self.assertEqual('2.6.9', self._get_py_version('python2.6'))
 
     def test_py27(self):
         self.assertEqual('2.7.11', self._get_py_version('python2.7'))
@@ -93,6 +97,9 @@ class _TestModuleSupport(object):
             "{0} -c '{1}'".format(py_interpreter, self.py_code),
             shell=True)
         return retcode
+
+    def test_py26(self):
+        self.assertEqual(0, self._execute_code('python2.6'))
 
     def test_py27(self):
         self.assertEqual(0, self._execute_code('python2.7'))
